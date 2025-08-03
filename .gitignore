@@ -1,0 +1,24 @@
+# Ignoring Eclipse specified configuration files and directories
+.settings/
+.project
+.classpath
+
+# ignore Maven generated files
+*.iml
+dependency-reduced-pom.xml
+target/
+
+# ignore database files
+*.db
+
+# Ignore registry and log files
+*.log
+
+# Ignore VSCode configuration files
+.vscode/
+
+# Ignore system generated files
+*.swp
+*.tmp
+.DS_Store
+Thumbs.db
