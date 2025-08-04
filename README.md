@@ -47,6 +47,7 @@ The project follows a hybrid architecture combining **Domain-Driven Design (DDD)
 
 ### Directory Structure Example
 
+```bash
 src/
 ├── main/
 │   ├── java/
@@ -86,6 +87,7 @@ src/
 │       ├── repository/
 │       └── utils/
 │           └── enums/
+```
 
 ### Design Principles
 

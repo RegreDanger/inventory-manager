@@ -9,7 +9,7 @@ import kernel.utils.enums.ErrorCode;
 
 public class DatabaseConnection {
     
-    private static final String URL = "jdbc:sqlite:mi_base_de_datos.db";
+    private static final String URL = "jdbc:sqlite:database.db";
     private static Connection connection = null;
 
     private DatabaseConnection() {}
