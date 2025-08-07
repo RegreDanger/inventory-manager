@@ -9,14 +9,15 @@ import catalog.app.domain.model.category.Category;
 import catalog.app.domain.model.category.CategoryID;
 import catalog.app.domain.repository.category.CategoryRepository;
 import catalog.infra.db.sqlite.repository.category.CategoryRepositorySqlite;
-import infra.shared.config.DatabaseConnection;
+import infra.shared.config.db.sqlite.DatabaseSqliteConnection;
 
 class GetCategoryByIdIntegrationTest {
 	private CategoryRepository repo;
 	
 	@BeforeEach
 	void setUp() {
-		repo = CategoryRepositorySqlite.getInstance(DatabaseConnection.getConnection());
+		DatabaseSqliteConnection.initializeConnection();
+		repo = CategoryRepositorySqlite.getInstance(DatabaseSqliteConnection.getConnection());
 		repo.delete(CategoryID.from("8888-8888-8888-8888"));
 	}
 	

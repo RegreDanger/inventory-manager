@@ -24,18 +24,6 @@ public class CategoryRepositorySqlite implements CategoryRepository {
 	
 	private CategoryRepositorySqlite(Connection connection) {
 		this.connection = connection;
-		String sql = "CREATE TABLE IF NOT EXISTS category ("
-                +  "id TEXT NOT NULL,"
-                +  "name TEXT NOT NULL,"
-                +  "description TEXT NOT NULL,"
-                +  "CONSTRAINT pk_category PRIMARY KEY (id),"
-                +  "CONSTRAINT uq_category_name UNIQUE (name)"
-                +  ");";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-        	throw new InternalServerException("Internal Server Error", ErrorCode.INTERNAL_SERVER_ERROR);
-        }
 	}
 	
 	public static CategoryRepository getInstance(Connection connection) {
@@ -121,7 +109,7 @@ public class CategoryRepositorySqlite implements CategoryRepository {
 			int affected = stmt.executeUpdate();
 			return affected > 0;
 		} catch (SQLException e) {
-			throw new InternalServerException("", ErrorCode.INTERNAL_SERVER_ERROR);
+			throw new InternalServerException("Internal Sever Error", ErrorCode.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
