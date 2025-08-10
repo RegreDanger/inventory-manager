@@ -1,4 +1,4 @@
-package test.integration.category;
+package test.integration.sqlite.category;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;

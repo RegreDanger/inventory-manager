@@ -1,10 +1,12 @@
 package infra.shared.config.db.sqlite;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.io.IOException;
-
+import java.nio.charset.StandardCharsets;
 import java.sql.Statement;
+import org.slf4j.LoggerFactory;
+
+import bootstrap.Main;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -24,6 +26,7 @@ public class DatabaseSqliteConnection {
             if (connection == null || connection.isClosed()) {
                 connection = DriverManager.getConnection(URL);
                 initSchema(connection);
+                Runtime.getRuntime().addShutdownHook(new Thread(DatabaseSqliteConnection::closeConnection));
             }
         } catch (SQLException e) {
             throw new InternalServerException("Internal Server Error", ErrorCode.INTERNAL_SERVER_ERROR);
@@ -33,7 +36,7 @@ public class DatabaseSqliteConnection {
 
     private static void initSchema(Connection connection) {
             try (Statement stmt = connection.createStatement()) {
-                String schema = Files.readString(Path.of("src/main/java/infra/shared/config/db/sqlite/schema.sql"));
+                String schema = new String(Main.class.getResourceAsStream("/schema.sql").readAllBytes(), StandardCharsets.UTF_8);
                 String[] sqlStatements = schema.split(";");
                 for (String sql : sqlStatements) {
                     if (!sql.trim().isEmpty()) {
@@ -52,9 +55,10 @@ public class DatabaseSqliteConnection {
         return connection;
     }
 
-    public static void closeConnection() {
+    private static void closeConnection() {
         if (connection != null) {
             try {
+                LoggerFactory.getLogger(DatabaseSqliteConnection.class).info("Closing SQLite database connection.");
                 connection.close();
             } catch (SQLException e) {
                 throw new InternalServerException("Internal Server Error", ErrorCode.INTERNAL_SERVER_ERROR);
