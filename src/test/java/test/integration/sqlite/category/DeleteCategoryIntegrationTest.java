@@ -9,7 +9,7 @@ import catalog.app.domain.model.category.Category;
 import catalog.app.domain.model.category.CategoryID;
 import catalog.app.domain.repository.category.CategoryRepository;
 import catalog.infra.db.sqlite.repository.category.CategoryRepositorySqlite;
-import infra.shared.config.db.sqlite.DatabaseSqliteConnection;
+import infra.shared.config.db.sqlite.HikariSqlite;
 
 
 class DeleteCategoryIntegrationTest {
@@ -17,8 +17,8 @@ class DeleteCategoryIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        DatabaseSqliteConnection.initializeConnection();
-        repo = CategoryRepositorySqlite.getInstance(DatabaseSqliteConnection.getConnection());
+        HikariSqlite.initializeDatabase();
+		repo = new CategoryRepositorySqlite(HikariSqlite.getConnection());
         repo.delete(CategoryID.from("8888-8888-8888-8888"));
     }
 

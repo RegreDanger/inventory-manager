@@ -1,14 +1,14 @@
-package kernel.exceptions.impl;
+package kernel.impl.exceptions;
 
-import kernel.exceptions.interfaces.ApiException;
+import kernel.interfaces.exception.ApiException;
 import kernel.utils.enums.ErrorCode;
 
 public class NotFoundException extends RuntimeException implements ApiException {
 	private static final long serialVersionUID = 1326269956187782952L;
-	private ErrorCode code;
+	private final ErrorCode code;
 	public NotFoundException(String model, ErrorCode code) {
 		super(model + " Not Found");
-		this.code = code;;
+		this.code = code;
 	}
 	
 	public ErrorCode getStatus() {

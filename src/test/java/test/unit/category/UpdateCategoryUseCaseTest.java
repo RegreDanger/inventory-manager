@@ -17,7 +17,7 @@ import catalog.app.domain.model.category.CategoryID;
 import catalog.app.domain.repository.category.CategoryRepository;
 import catalog.app.usecase.category.UpdateCategoryUseCase;
 import catalog.infra.api.dto.category.UpdateCategoryDTO;
-import kernel.exceptions.impl.NotFoundException;
+import kernel.impl.exceptions.NotFoundException;
 
 class UpdateCategoryUseCaseTest {
 	@Mock

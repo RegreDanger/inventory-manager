@@ -8,28 +8,46 @@
 	<name>Inventory Manager</name>
 
 	<dependencies>
-		<!-- Javalin, SQLite, JUnit, Mockito, and loggers -->
-		<dependency>
-			<groupId>org.xerial</groupId>
-			<artifactId>sqlite-jdbc</artifactId>
-			<version>3.46.0.1</version>
-		</dependency>
+		<!-- Javalin, SQLite, HikariCP, MyBatis, Reflections -->
+		
 		<dependency>
 			<groupId>io.javalin</groupId>
 			<artifactId>javalin</artifactId>
 			<version>6.3.0</version>
 		</dependency>
 		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-core</artifactId>
-			<version>3.3.3</version>
+			<groupId>org.xerial</groupId>
+			<artifactId>sqlite-jdbc</artifactId>
+			<version>3.46.0.1</version>
 		</dependency>
+		<dependency>
+        	<groupId>com.zaxxer</groupId>
+        	<artifactId>HikariCP</artifactId>
+        	<version>7.0.1</version>
+    	</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.5.13</version>
+		</dependency>
+		<dependency>
+			<groupId>org.reflections</groupId>
+			<artifactId>reflections</artifactId>
+			<version>0.10.2</version>
+		</dependency>
+
+		<!-- JUnit, Mockito, and loggers -->
 		<dependency>
         	<groupId>org.junit.jupiter</groupId>
         	<artifactId>junit-jupiter-api</artifactId>
         	<version>5.10.2</version>
         	<scope>test</scope>
         </dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>3.3.3</version>
+		</dependency>
         <dependency>
     		<groupId>org.slf4j</groupId>
     		<artifactId>slf4j-api</artifactId>

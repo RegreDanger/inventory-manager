@@ -1,6 +1,6 @@
 package catalog.app.usecase.category;
 
-import kernel.exceptions.impl.BadRequestException;
+import kernel.impl.exceptions.BadRequestException;
 import kernel.utils.enums.ErrorCode;
 
 import catalog.app.domain.model.category.CategoryID;

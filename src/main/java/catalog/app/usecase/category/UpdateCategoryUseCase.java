@@ -5,7 +5,7 @@ import catalog.app.domain.model.category.CategoryID;
 import catalog.app.domain.repository.category.CategoryRepository;
 import catalog.infra.api.dto.category.UpdateCategoryDTO;
 import catalog.infra.api.mappers.category.CategoryDtoMapper;
-import kernel.exceptions.impl.NotFoundException;
+import kernel.impl.exceptions.NotFoundException;
 import kernel.utils.enums.ErrorCode;
 
 public class UpdateCategoryUseCase {

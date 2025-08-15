@@ -1,4 +1,4 @@
-package kernel.repository;
+package kernel.interfaces.repository;
 
 import java.util.Optional;
 import java.util.List;

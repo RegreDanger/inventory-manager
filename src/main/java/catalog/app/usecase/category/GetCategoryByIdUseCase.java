@@ -3,8 +3,8 @@ package catalog.app.usecase.category;
 import catalog.app.domain.model.category.Category;
 import catalog.app.domain.model.category.CategoryID;
 import catalog.app.domain.repository.category.CategoryRepository;
-import kernel.exceptions.impl.BadRequestException;
-import kernel.exceptions.impl.NotFoundException;
+import kernel.impl.exceptions.BadRequestException;
+import kernel.impl.exceptions.NotFoundException;
 import kernel.utils.enums.ErrorCode;
 
 public class GetCategoryByIdUseCase {

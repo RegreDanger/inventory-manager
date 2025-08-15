@@ -1,6 +1,6 @@
 package catalog.app.domain.exceptions.category;
 
-import kernel.exceptions.interfaces.ApiException;
+import kernel.interfaces.exception.ApiException;
 import kernel.utils.enums.ErrorCode;
 
 public class CategoryDuplicatedException extends RuntimeException implements ApiException {

@@ -16,7 +16,7 @@ import catalog.app.domain.model.category.Category;
 import catalog.app.domain.model.category.CategoryID;
 import catalog.app.domain.repository.category.CategoryRepository;
 import catalog.app.usecase.category.GetCategoryByIdUseCase;
-import kernel.exceptions.impl.NotFoundException;
+import kernel.impl.exceptions.NotFoundException;
 
 class GetCategoryByIdUseCaseTest {
 	@Mock

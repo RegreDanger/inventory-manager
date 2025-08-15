@@ -1,4 +1,4 @@
-package kernel.exceptions.interfaces;
+package kernel.interfaces.exception;
 
 import kernel.utils.enums.ErrorCode;
 
