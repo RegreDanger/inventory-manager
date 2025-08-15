@@ -9,10 +9,8 @@ dependency-reduced-pom.xml
 target/
 
 # ignore database files
-db/
-*.db-shm
-*.db-wal
-*.db
+*db/
+*.db*
 
 # Ignore registry and log files
 *.log
