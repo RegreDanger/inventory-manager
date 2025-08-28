@@ -2,23 +2,24 @@ package catalog.app.usecase.category;
 
 import catalog.app.domain.model.category.Category;
 import catalog.app.domain.model.category.CategoryID;
-import catalog.app.domain.repository.category.CategoryRepository;
+import catalog.app.domain.ports.repository.CategoryRepository;
 import catalog.infra.api.dto.category.UpdateCategoryDTO;
 import catalog.infra.api.mappers.category.CategoryDtoMapper;
-import kernel.impl.exceptions.NotFoundException;
-import kernel.utils.enums.ErrorCode;
+import common.kernel.exceptions.api.NotFoundException;
+import common.kernel.ports.cqrs.Command;
 
-public class UpdateCategoryUseCase {
+public class UpdateCategoryUseCase implements Command<UpdateCategoryDTO, Boolean>{
 	private CategoryRepository categoryRepository;
 	
 	public UpdateCategoryUseCase(CategoryRepository categoryRepository) {
 		this.categoryRepository = categoryRepository;
 	}
-	
-	public boolean updateCategory(UpdateCategoryDTO dto) {
-		if(dto.id() == null || dto.id().isEmpty()) throw new IllegalArgumentException("ID is required for update");
-		categoryRepository.findById(CategoryID.from(dto.id())).orElseThrow(() -> new NotFoundException("Category", ErrorCode.NOT_FOUND_ERROR));
-		Category category = CategoryDtoMapper.fromUpdateDto(dto);
+
+	@Override
+	public Boolean handle(UpdateCategoryDTO input) {
+		if(input.id() == null || input.id().isEmpty()) throw new IllegalArgumentException("ID is required for update");
+		categoryRepository.findById(CategoryID.from(input.id())).orElseThrow(() -> new NotFoundException("Category"));
+		Category category = CategoryDtoMapper.fromUpdateDto(input);
 		return categoryRepository.update(category);
 	}
 	

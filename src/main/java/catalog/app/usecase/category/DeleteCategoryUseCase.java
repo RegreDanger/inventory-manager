@@ -1,24 +1,24 @@
 package catalog.app.usecase.category;
 
-import kernel.impl.exceptions.BadRequestException;
-import kernel.utils.enums.ErrorCode;
-
 import catalog.app.domain.model.category.CategoryID;
-import catalog.app.domain.repository.category.CategoryRepository;
+import catalog.app.domain.ports.repository.CategoryRepository;
+import common.kernel.exceptions.api.BadRequestException;
+import common.kernel.ports.cqrs.Command;
 
 
-public class DeleteCategoryUseCase {
+public class DeleteCategoryUseCase implements Command<String, Boolean> {
     private CategoryRepository categoryRepository;
 	
 	public DeleteCategoryUseCase(CategoryRepository categoryRepository) {
 		this.categoryRepository = categoryRepository;
 	}
-	
-	public boolean deleteCategory(String idCategory) {
-		if(idCategory == null || idCategory.isEmpty()) {
-			throw new BadRequestException("The ID is required", ErrorCode.BAD_REQUEST_ERROR);
+
+	@Override
+	public Boolean handle(String input) {
+		if(input == null || input.isEmpty()) {
+			throw new BadRequestException("The ID is required");
 		}
-        CategoryID id = CategoryID.from(idCategory);
+        CategoryID id = CategoryID.from(input);
         return categoryRepository.delete(id);
     }
 }

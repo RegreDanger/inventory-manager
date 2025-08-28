@@ -1,0 +1,172 @@
+package catalog.infra.adapters.out.repository;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import catalog.app.domain.model.category.Category;
+import catalog.app.domain.model.category.CategoryID;
+import catalog.app.domain.ports.repository.CategoryRepository;
+import common.kernel.exceptions.api.InternalServerException;
+import common.platform.config.db.sqlite.HikariSqlite;
+import common.platform.config.javalin.annotation.JavalinRepositoryAnnotation;
+
+@JavalinRepositoryAnnotation
+public class CategoryRepositorySqlite implements CategoryRepository {
+    private final HikariSqlite hikari;
+    private static final Logger logger = LoggerFactory.getLogger(CategoryRepositorySqlite.class);
+    private static final String ID = "id";
+    private static final String NAME = "name";
+    private static final String DESCRIPTION = "description";
+
+    public CategoryRepositorySqlite(HikariSqlite hikariSqlite) {
+        if (hikariSqlite == null) {
+            throw new InternalServerException(new NullPointerException("Datasource null"));
+        }
+        this.hikari = hikariSqlite;
+	}
+
+    @Override
+    public CategoryID create(Category category) {
+        String query = "INSERT INTO category (id, name, description) VALUES (?, ?, ?)";
+        try (Connection conn = hikari.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+
+            stmt.setString(1, category.getId().getValue());
+            stmt.setString(2, category.getName());
+            stmt.setString(3, category.getDescription());
+            stmt.executeUpdate();
+
+            logger.info("Category created successfully: {}", category);
+            return category.getId();
+
+        } catch (SQLException e) {
+            throw new InternalServerException("Failed to create category in the database.", e);
+        }
+    }
+
+    @Override
+    public Optional<Category> findById(CategoryID id) {
+        String query = "SELECT name, description FROM category WHERE id = ?";
+        try (Connection conn = hikari.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, id.getValue());
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    Category category = new Category(id, rs.getString(NAME), rs.getString(DESCRIPTION));
+                    logger.info("Category found by ID: {}", id);
+                    return Optional.of(category);
+                } else {
+                    logger.warn("No category found with ID: {}", id);
+                    return Optional.empty();
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new InternalServerException("Failed to retrieve category by ID from the database.", e);
+        }
+    }
+
+    @Override
+    public Optional<Category> findByName(String name) {
+        String query = "SELECT id, description FROM category WHERE name = ?";
+        try (Connection conn = hikari.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, name);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    CategoryID id = CategoryID.from(rs.getString(ID));
+                    Category category = new Category(id, name, rs.getString(DESCRIPTION));
+                    logger.info("Category found by name: {}", name);
+                    return Optional.of(category);
+                } else {
+                    logger.warn("No category found with name: {}", name);
+                    return Optional.empty();
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new InternalServerException("Failed to retrieve category by name from the database.", e);
+        }
+    }
+
+    @Override
+    public List<Category> findAll() {
+        String query = "SELECT id, name, description FROM category";
+        List<Category> categories = new LinkedList<>();
+
+        try (Connection conn = hikari.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query);
+                    ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                categories.add(new Category(
+                        CategoryID.from(rs.getString(ID)),
+                        rs.getString(NAME),
+                        rs.getString(DESCRIPTION)
+                ));
+            }
+
+            logger.info("Retrieved all categories. Count: {}", categories.size());
+            return categories;
+
+        } catch (SQLException e) {
+            throw new InternalServerException("Failed to retrieve all categories from the database.", e);
+        }
+    }
+
+    @Override
+    public boolean update(Category category) {
+        String query = "UPDATE category SET name = ?, description = ? WHERE id = ?";
+        try (Connection conn = hikari.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, category.getName());
+            stmt.setString(2, category.getDescription());
+            stmt.setString(3, category.getId().getValue());
+
+            int affected = stmt.executeUpdate();
+            if (affected > 0) {
+                logger.info("Category updated successfully: {}", category);
+                return true;
+            } else {
+                logger.warn("No category updated. ID: {}", category.getId());
+                return false;
+            }
+
+        } catch (SQLException e) {
+            throw new InternalServerException("Failed to update category in the database.", e);
+        }
+    }
+
+    @Override
+    public boolean delete(CategoryID id) {
+        String query = "DELETE FROM category WHERE id = ?";
+        try (Connection conn = hikari.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, id.getValue());
+            int affected = stmt.executeUpdate();
+            if (affected > 0) {
+                logger.info("Category deleted successfully. ID: {}", id);
+                return true;
+            } else {
+                logger.warn("No category deleted. ID: {}", id);
+                return false;
+            }
+
+        } catch (SQLException e) {
+            throw new InternalServerException("Failed to delete category from the database.", e);
+        }
+    }
+}

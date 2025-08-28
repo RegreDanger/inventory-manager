@@ -14,9 +14,9 @@ import org.mockito.MockitoAnnotations;
 
 import catalog.app.domain.model.category.Category;
 import catalog.app.domain.model.category.CategoryID;
-import catalog.app.domain.repository.category.CategoryRepository;
+import catalog.app.domain.ports.repository.CategoryRepository;
 import catalog.app.usecase.category.GetCategoryByIdUseCase;
-import kernel.impl.exceptions.NotFoundException;
+import common.kernel.exceptions.api.NotFoundException;
 
 class GetCategoryByIdUseCaseTest {
 	@Mock
@@ -33,7 +33,7 @@ class GetCategoryByIdUseCaseTest {
 	void getSuccessful() {
 		Category rt = new Category(CategoryID.from("8767-4567-7890"), "Nombre", "Descripción");
 		when(mockRepo.findById(CategoryID.from("8767-4567-7890"))).thenReturn(Optional.ofNullable(rt));
-		Category category = useCase.getCategoryById("8767-4567-7890");
+		Category category = useCase.handle("8767-4567-7890");
 		assertEquals("8767-4567-7890", category.getId().getValue());
 	}
 	
@@ -41,7 +41,7 @@ class GetCategoryByIdUseCaseTest {
 	void throwsNotFound() {
 		when(mockRepo.findById(CategoryID.from("8767-4567-7890"))).thenReturn(Optional.empty());
 		Exception ex = assertThrows(NotFoundException.class, () -> {
-			useCase.getCategoryById("8767-4567-7890");
+			useCase.handle("8767-4567-7890");
 		});
 		
 		assertEquals("Category Not Found", ex.getMessage());

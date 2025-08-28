@@ -13,11 +13,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import catalog.app.domain.exceptions.category.CategoryDuplicatedException;
-import catalog.app.domain.repository.category.CategoryRepository;
+import catalog.app.domain.ports.repository.CategoryRepository;
 import catalog.app.usecase.category.CreateCategoryUseCase;
 import catalog.infra.api.dto.category.CreateCategoryDTO;
 import catalog.infra.api.mappers.category.CategoryDtoMapper;
+import common.kernel.exceptions.api.DuplicatedException;
 
 class CreateCategoryUseCaseTest {
 	@Mock
@@ -35,7 +35,7 @@ class CreateCategoryUseCaseTest {
 		CreateCategoryDTO dto = new CreateCategoryDTO("Nombre", "Descripción");
 		when(mockRepo.findByName(dto.name())).thenReturn(Optional.empty());
 		assertDoesNotThrow(() -> {
-			useCase.createCategory(dto);
+			useCase.handle(dto);
 		});
 	}
 	
@@ -43,8 +43,8 @@ class CreateCategoryUseCaseTest {
 	void throwsAlreadyExists() {
 		CreateCategoryDTO dto = new CreateCategoryDTO("Nombre", "Descripción");
 		when(mockRepo.findByName(dto.name())).thenReturn(Optional.of(CategoryDtoMapper.fromCreateDto(dto)));
-		Exception ex = assertThrows(CategoryDuplicatedException.class, () -> {
-			useCase.createCategory(dto);
+		Exception ex = assertThrows(DuplicatedException.class, () -> {
+			useCase.handle(dto);
 		});
 
 		assertEquals("Category already exists!", ex.getMessage());

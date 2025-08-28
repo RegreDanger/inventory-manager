@@ -14,10 +14,10 @@ import org.mockito.MockitoAnnotations;
 
 import catalog.app.domain.model.category.Category;
 import catalog.app.domain.model.category.CategoryID;
-import catalog.app.domain.repository.category.CategoryRepository;
+import catalog.app.domain.ports.repository.CategoryRepository;
 import catalog.app.usecase.category.UpdateCategoryUseCase;
 import catalog.infra.api.dto.category.UpdateCategoryDTO;
-import kernel.impl.exceptions.NotFoundException;
+import common.kernel.exceptions.api.NotFoundException;
 
 class UpdateCategoryUseCaseTest {
 	@Mock
@@ -34,7 +34,7 @@ class UpdateCategoryUseCaseTest {
 	void updateSuccessful() {
 		when(mockRepo.update(new Category(CategoryID.from("8767-4567-7890"), "Nombre", "Descripción"))).thenReturn(true);
 		when(mockRepo.findById(CategoryID.from("8767-4567-7890"))).thenReturn(Optional.ofNullable(new Category(CategoryID.from("8767-4567-7890"), "Nombre", "Descripción")));
-		boolean rs = useCase.updateCategory(new UpdateCategoryDTO("8767-4567-7890", "Nombre", "Descripción"));
+		boolean rs = useCase.handle(new UpdateCategoryDTO("8767-4567-7890", "Nombre", "Descripción"));
 		assertEquals(true, rs);
 	}
 	
@@ -42,7 +42,7 @@ class UpdateCategoryUseCaseTest {
 	void throwsNotFound() {
 		when(mockRepo.findById(CategoryID.from("8767-4567-7890"))).thenReturn(Optional.empty());
 		UpdateCategoryDTO category = new UpdateCategoryDTO("8767-4567-7890", "Nombre", "Descripción");
-		Exception ex = assertThrows(NotFoundException.class, () -> useCase.updateCategory(category));
+		Exception ex = assertThrows(NotFoundException.class, () -> useCase.handle(category));
 		assertEquals("Category Not Found", ex.getMessage());
 	}
 }

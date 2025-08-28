@@ -9,11 +9,13 @@ dependency-reduced-pom.xml
 target/
 
 # ignore database files
-*db/
+/db/
 *.db*
 
 # Ignore registry and log files
 *.log
+tree.txt
+*.diff
 
 # Ignore VSCode configuration files
 .vscode/

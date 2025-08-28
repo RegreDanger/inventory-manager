@@ -10,7 +10,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import catalog.app.domain.model.category.CategoryID;
-import catalog.app.domain.repository.category.CategoryRepository;
+import catalog.app.domain.ports.repository.CategoryRepository;
 import catalog.app.usecase.category.DeleteCategoryUseCase;
 
 
@@ -30,7 +30,7 @@ class DeleteCategoryUseCaseTest {
         String categoryId = "8888-8888-8888-8888";
         CategoryID id = CategoryID.from(categoryId);
         when(mockRepo.delete(id)).thenReturn(true);
-        boolean result = useCase.deleteCategory(categoryId);
+        boolean result = useCase.handle(categoryId);
         assertEquals(true, result);
     }
 
@@ -39,7 +39,7 @@ class DeleteCategoryUseCaseTest {
         String categoryId = "8888-8888-8888-8888";
         CategoryID id = CategoryID.from(categoryId);
         when(mockRepo.delete(id)).thenReturn(false);
-        boolean result = useCase.deleteCategory(categoryId);
+        boolean result = useCase.handle(categoryId);
         assertEquals(false, result);
     }
 }

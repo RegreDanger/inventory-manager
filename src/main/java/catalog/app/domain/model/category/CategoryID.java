@@ -2,7 +2,7 @@ package catalog.app.domain.model.category;
 
 import java.util.Objects;
 
-import kernel.utils.UuidGenerator;
+import common.kernel.utils.UuidGenerator;
 
 public class CategoryID {
 	private final String value;

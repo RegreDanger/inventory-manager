@@ -2,24 +2,25 @@ package catalog.app.usecase.category;
 
 import catalog.app.domain.model.category.Category;
 import catalog.app.domain.model.category.CategoryID;
-import catalog.app.domain.repository.category.CategoryRepository;
-import kernel.impl.exceptions.BadRequestException;
-import kernel.impl.exceptions.NotFoundException;
-import kernel.utils.enums.ErrorCode;
+import catalog.app.domain.ports.repository.CategoryRepository;
+import common.kernel.exceptions.api.BadRequestException;
+import common.kernel.exceptions.api.NotFoundException;
+import common.kernel.ports.cqrs.Query;
 
-public class GetCategoryByIdUseCase {
+public class GetCategoryByIdUseCase implements Query<String, Category> {
 	private CategoryRepository categoryRepository;
 	
 	public GetCategoryByIdUseCase(CategoryRepository categoryRepository) {
 		this.categoryRepository = categoryRepository;
 	}
-	
-	public Category getCategoryById(String idCategory) {
-		if(idCategory == null || idCategory.isEmpty()) {
-			throw new BadRequestException("The ID is required", ErrorCode.BAD_REQUEST_ERROR);
+
+	@Override
+	public Category handle(String input) {
+		if(input == null || input.isEmpty()) {
+			throw new BadRequestException("The ID is required");
 		}
-		CategoryID id = CategoryID.from(idCategory);
-		return categoryRepository.findById(id).orElseThrow(() -> new NotFoundException("Category", ErrorCode.NOT_FOUND_ERROR));
+		CategoryID id = CategoryID.from(input);
+		return categoryRepository.findById(id).orElseThrow(() -> new NotFoundException("Category"));
 	}
 	
 }
