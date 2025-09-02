@@ -4,12 +4,12 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import catalog.app.domain.model.category.Category;
-import catalog.app.domain.model.category.CategoryID;
-import catalog.app.domain.ports.repository.CategoryRepository;
+import catalog.category.domain.model.Category;
+import catalog.category.domain.model.CategoryID;
+import catalog.category.domain.ports.repository.CategoryRepository;
 import catalog.infra.adapters.out.repository.CategoryRepositorySqlite;
-import common.platform.config.db.sqlite.HikariSqlite;
 import common.kernel.exceptions.api.InternalServerException;
+import common.platform.db.sqlite.HikariSqlite;
 
 class CategoryIT {
 

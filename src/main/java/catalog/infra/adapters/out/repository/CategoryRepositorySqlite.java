@@ -12,12 +12,12 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import catalog.app.domain.model.category.Category;
-import catalog.app.domain.model.category.CategoryID;
-import catalog.app.domain.ports.repository.CategoryRepository;
+import catalog.category.domain.model.Category;
+import catalog.category.domain.model.CategoryID;
+import catalog.category.domain.ports.repository.CategoryRepository;
 import common.kernel.exceptions.api.InternalServerException;
-import common.platform.config.db.sqlite.HikariSqlite;
-import common.platform.config.javalin.annotation.JavalinRepositoryAnnotation;
+import common.platform.javalin.annotation.JavalinRepositoryAnnotation;
+import common.platform.db.sqlite.HikariSqlite;
 
 @JavalinRepositoryAnnotation
 public class CategoryRepositorySqlite implements CategoryRepository {

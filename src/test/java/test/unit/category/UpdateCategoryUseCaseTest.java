@@ -12,10 +12,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import catalog.app.domain.model.category.Category;
-import catalog.app.domain.model.category.CategoryID;
-import catalog.app.domain.ports.repository.CategoryRepository;
-import catalog.app.usecase.category.UpdateCategoryUseCase;
+import catalog.category.app.usecase.command.UpdateCategoryUseCase;
+import catalog.category.domain.model.Category;
+import catalog.category.domain.model.CategoryID;
+import catalog.category.domain.ports.repository.CategoryRepository;
 import catalog.infra.api.dto.category.UpdateCategoryDTO;
 import common.kernel.exceptions.api.NotFoundException;
 

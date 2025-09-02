@@ -9,9 +9,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import catalog.app.domain.model.category.CategoryID;
-import catalog.app.domain.ports.repository.CategoryRepository;
-import catalog.app.usecase.category.DeleteCategoryUseCase;
+import catalog.category.app.usecase.command.DeleteCategoryUseCase;
+import catalog.category.domain.model.CategoryID;
+import catalog.category.domain.ports.repository.CategoryRepository;
 
 
 class DeleteCategoryUseCaseTest {

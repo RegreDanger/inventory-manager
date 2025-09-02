@@ -9,21 +9,21 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import catalog.app.usecase.category.CreateCategoryUseCase;
-import catalog.app.usecase.category.GetCategoryByIdUseCase;
+import catalog.category.app.usecase.command.CreateCategoryUseCase;
+import catalog.category.app.usecase.query.GetCategoryByIdUseCase;
 import common.kernel.ports.cqrs.Command;
 import common.kernel.ports.cqrs.Query;
-import common.platform.config.db.sqlite.HikariSqlite;
-import common.platform.config.javalin.adapters.cqrs.JavalinCommandBus;
-import common.platform.config.javalin.adapters.cqrs.JavalinQueryBus;
-import common.platform.config.javalin.adapters.mappers.JavalinErrorCodeMapper;
-import common.platform.config.javalin.registers.BusRegistry;
-import common.platform.config.javalin.registers.DependencyRegistry;
-import common.platform.config.javalin.registers.EndpointRegistry;
-import common.platform.config.javalin.registers.ExceptionsRegistry;
-import common.platform.config.javalin.registers.JavalinContext;
-import common.platform.config.javalin.registers.RepositoryRegistry;
-import common.platform.config.javalin.registers.UseCasesRegistry;
+import common.platform.javalin.adapters.cqrs.JavalinCommandBus;
+import common.platform.javalin.adapters.cqrs.JavalinQueryBus;
+import common.platform.javalin.adapters.mappers.JavalinErrorCodeMapper;
+import common.platform.javalin.registers.BusRegistry;
+import common.platform.javalin.registers.DependencyRegistry;
+import common.platform.javalin.registers.EndpointRegistry;
+import common.platform.javalin.registers.ExceptionsRegistry;
+import common.platform.javalin.registers.JavalinContext;
+import common.platform.javalin.registers.RepositoryRegistry;
+import common.platform.javalin.registers.UseCasesRegistry;
+import common.platform.db.sqlite.HikariSqlite;
 import io.javalin.Javalin;
 
 class BootstrappingIT {

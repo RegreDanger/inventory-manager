@@ -12,10 +12,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import catalog.app.domain.model.category.Category;
-import catalog.app.domain.model.category.CategoryID;
-import catalog.app.domain.ports.repository.CategoryRepository;
-import catalog.app.usecase.category.GetCategoryByIdUseCase;
+import catalog.category.app.usecase.query.GetCategoryByIdUseCase;
+import catalog.category.domain.model.Category;
+import catalog.category.domain.model.CategoryID;
+import catalog.category.domain.ports.repository.CategoryRepository;
 import common.kernel.exceptions.api.NotFoundException;
 
 class GetCategoryByIdUseCaseTest {

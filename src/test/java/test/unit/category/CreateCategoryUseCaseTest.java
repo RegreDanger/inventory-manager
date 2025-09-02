@@ -13,10 +13,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import catalog.app.domain.ports.repository.CategoryRepository;
-import catalog.app.usecase.category.CreateCategoryUseCase;
+import catalog.category.app.usecase.command.CreateCategoryUseCase;
+import catalog.category.domain.ports.repository.CategoryRepository;
 import catalog.infra.api.dto.category.CreateCategoryDTO;
-import catalog.infra.api.mappers.category.CategoryDtoMapper;
+import catalog.infra.api.mappers.CategoryMapper;
 import common.kernel.exceptions.api.DuplicatedException;
 
 class CreateCategoryUseCaseTest {
@@ -42,7 +42,7 @@ class CreateCategoryUseCaseTest {
 	@Test
 	void throwsAlreadyExists() {
 		CreateCategoryDTO dto = new CreateCategoryDTO("Nombre", "Descripción");
-		when(mockRepo.findByName(dto.name())).thenReturn(Optional.of(CategoryDtoMapper.fromCreateDto(dto)));
+		when(mockRepo.findByName(dto.name())).thenReturn(Optional.of(CategoryMapper.fromCreateDto(dto)));
 		Exception ex = assertThrows(DuplicatedException.class, () -> {
 			useCase.handle(dto);
 		});
